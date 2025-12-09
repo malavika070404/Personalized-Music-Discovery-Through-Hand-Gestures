@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Tune Mood</title>
+  <link rel="stylesheet" href="../static/style.css">
+
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+  <header class="site-header">
+    <h1 class="title">Tune Mood</h1>
+    <nav class="site-nav">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#customize">Personalize</a></li>
+        <li><a href="#choose">Feedback</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section id="home" class="section">
+    <table class="full-width-table">
+      <tr>
+        <td class="content-cell">
+          <h1>Wave to Play: Music Discovery via Hand Gesture Recognition<br><span id="typewriter"></span></h1><br>
+          <p>
+            In the realm of music exploration, this website introduces an innovative approach : Personalized music
+            discovery powered by hand gestures. Imagine a website where you can curate your playlists and explore new
+            tunes, all without touching a keyboard. By leveraging cutting-edge hand gesture recognition technology,
+            users can seamlessly navigate through their favorite tracks. Our platform combines the joy of music with the
+            magic of intuitive interaction, making music discovery a truly immersive experience. Welcome to a world
+            where playlists come alive through gestures!
+          </p>
+        </td>
+        <td class="empty-cell">
+          <img
+          src="static\music.png"
+          width="690" height="410" alt="Gestures">
+        </td>
+      </tr>
+    </table>
+  </section>
+
+  <section id="about" class="section"><br>
+    <div class="text-content" style="margin: 0 30px;">
+      <!-- Your text goes here -->
+      <center>
+        <h1 style="color: rgb(17, 17, 100);">About</h1>
+      </center><br>
+      <p>Unlock a new level of control and customizations with our gesture navigation system. Discover the power of
+        intuitive gestures and their meanings displayed below. Each gesture is meticulously designed to offer you a
+        personalized and seamless browsing experience. Simply follow the gestures to effortlessly navigate and interact
+        with the website. Dive in and explore with ease.</p>
+    </div><br><br>
+    <div class="content-wrapper">
+      <center>
+        <img
+          src="static\Gestures.png"
+          width="690" height="410" alt="Gestures">
+
+      </center>
+    </div>
+  </section>
+
+  <section id="customize" class="section">
+    <div class="text-content">
+      <!-- Your text goes here -->
+      <center>
+        <h1 style="color: rgb(17, 17, 100);">Personalize</h1>
+      </center><br>
+    </div>
+    <div class="card-section">
+      <div class="container">
+        <div class="card about">
+          <h2>
+            <center><b>Playlists</b></center>
+          </h2><br>
+          <ol>
+            <li>Chill Vibes</li>
+            <li>Upbeat Songs</li>
+            <li>Instrumental Music</li>
+            <li>Devotional Songs</li>
+            <li>Acoustic Melodies</li>
+            <li>Meditation Music</li>
+            <li>Nature Sounds</li>
+            <li>Gym Motivation</li>
+            <li>Classical Music</li>
+            <li>Ambient Music</li>
+          </ol>
+        </div>
+        <div class="card webcam">
+          <h2>Webcam</h2><br>
+          <img src="{{ url_for('video') }}" width="100%">
+        </div>
+        <div class="card controls">
+          <h2>Controls</h2><br>
+          <div class="button-group">
+            <form id="capture-form">
+              <button type="submit">Capture</button>
+            </form>
+            <form id="reset-form">
+              <button type="submit">Reset</button>
+            </form>
+          </div>
+          <div class="output">{{ output }}</div>
+          <form id="redirect-form" action="/redirect" method="POST">
+            <input type="hidden" name="output_value" id="output-value">
+            <button type="submit" class="discover-music-btn">Discover Music</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- CHOOSE YOUR SONG -->
+  <section id="choose" class="section">
+    <div class="text-content">
+      <!-- Your text goes here -->
+      <center>
+        <h1 style="color: rgb(17, 17, 100);">Feedback</h1>
+      </center><br>
+    </div>
+    <!-- Feedback Emoji Rating -->
+    <div class="app">
+      <center>
+        <h1 style="color:black">Let us know how we did it</h1>
+      </center><br>
+
+      <div class="container">
+        <div class="item">
+          <label for="0">
+            <input class="radio" type="radio" name="feedback" id="0" value="0">
+            <span style="font-size: 5rem;">🤬</span>
+          </label>
+        </div>
+
+        <div class="item">
+          <label for="1">
+            <input class="radio" type="radio" name="feedback" id="1" value="1">
+            <span style="font-size: 5rem;">🙁</span>
+          </label>
+        </div>
+
+        <div class="item">
+          <label for="2">
+            <input class="radio" type="radio" name="feedback" id="2" value="2">
+            <span style="font-size: 5rem;">😶</span>
+          </label>
+        </div>
+
+        <div class="item">
+          <label for="3">
+            <input class="radio" type="radio" name="feedback" id="3" value="3">
+            <span style="font-size: 5rem;">😁</span>
+          </label>
+        </div>
+
+        <div class="item">
+          <label for="4">
+            <input class="radio" type="radio" name="feedback" id="4" value="4">
+            <span style="font-size: 5rem;">😍</span>
+          </label>
+        </div>
+      </div>
+      <br>
+      <center><button id="submit-button" onclick="submitFeedback()">Submit</button></center>
+    </div>
+  </section>
+  <script>
+    function submitFeedback() {
+      // Check if any feedback is selected
+      let isFeedbackSelected = false;
+      document.querySelectorAll('.radio').forEach(radio => {
+        if (radio.checked) {
+          isFeedbackSelected = true;
+        }
+      });
+
+      // If feedback is not selected, display an alert
+      if (!isFeedbackSelected) {
+        alert('Please provide your valuable feedback.');
+        return; // Exit the function if no feedback is given
+      }
+
+      // Reset all emojis to grayscale
+      document.querySelectorAll('.radio + span').forEach(emoji => {
+        emoji.style.filter = 'grayscale(100)';
+      });
+
+      // Uncheck all radio buttons
+      document.querySelectorAll('.radio').forEach(radio => {
+        radio.checked = false;
+      });
+
+      // Display feedback submitted alert
+      alert('Feedback Submitted! Thank you.');
+    }
+
+    // Listen for any change on the radio buttons
+    document.querySelectorAll('.radio').forEach(radio => {
+      radio.addEventListener('change', function () {
+        // Reset all emojis to colorless
+        document.querySelectorAll('.radio + span').forEach(emoji => {
+          emoji.style.filter = 'grayscale(100)';
+        });
+        // Color the selected emoji
+        this.nextElementSibling.style.filter = 'grayscale(0)';
+      });
+    });
+  </script>
+
+  <script>
+    const text = "Hand Gesture Recognition";
+    const typingDelay = 150;
+    let index = 0;
+    let typing = true;
+
+    function typeWriter() {
+      if (typing) {
+        if (index < text.length) {
+          document.getElementById('typewriter').textContent += text.charAt(index);
+          index++;
+          setTimeout(typeWriter, typingDelay);
+        } else {
+          // Reset for continuous effect
+          setTimeout(() => {
+            document.getElementById('typewriter').textContent = '';
+            index = 0;
+            typeWriter();
+          }, 2000); // Wait for 2 seconds before restarting
+        }
+      }
+    }
+
+    // Start the typewriter effect
+    typeWriter();
+
+    // Optional: Stop the typewriter effect on click
+    document.getElementById('typewriter').addEventListener('click', () => {
+      typing = false;
+      document.getElementById('typewriter').textContent = text;
+    });
+
+    // Function to show only the desired section
+    function showSection(sectionId) {
+      // Hide all sections
+      var sections = document.querySelectorAll('.section');
+      sections.forEach(function (section) {
+        section.style.display = 'none';
+      });
+
+      // Show the specified section
+      var sectionToShow = document.getElementById(sectionId);
+      if (sectionToShow) {
+        sectionToShow.style.display = 'block';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Assuming 'customize-section' is the ID of the section you want to stay in
+      var customizeSectionId = 'customize';
+
+      // Add event listener for the 'Capture' button
+      document.querySelector('.capture-btn').addEventListener('click', function (event) {
+        event.preventDefault();
+        // Your capture logic here
+        showSection(customizeSectionId);
+      });
+
+      // Add event listener for the 'Reset' button
+      document.querySelector('.reset-btn').addEventListener('click', function (event) {
+        event.preventDefault();
+        // Your reset logic here
+        showSection(customizeSectionId);
+      });
+
+      // Add event listener for the 'Discover Music' button
+      document.querySelector('.discover-music-btn').addEventListener('click', function (event) {
+        event.preventDefault();
+        // Your discover music logic here
+        showSection(customizeSectionId);
+      });
+    });
+
+  </script>
+  <script>
+    // JavaScript to handle the Capture form submission
+    document.getElementById('capture-form').addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent the default form submission
+      fetch('/capture', {
+        method: 'POST',
+        // Add any necessary headers and body data here
+      })
+        .then(response => response.text())
+        .then(data => {
+          document.querySelector('.output').textContent = data; // Update the output div with the response
+        });
+    });
+
+    // JavaScript to handle the Reset form submission
+    document.getElementById('reset-form').addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent the default form submission
+      fetch('/reset', {
+        method: 'POST',
+        // Add any necessary headers and body data here
+      })
+        .then(response => response.text())
+        .then(data => {
+          document.querySelector('.output').textContent = data; // Update the output div with the response
+        });
+    });
+  </script>
+  <script>
+    function redirectToChooseSection() {
+      // Assuming 'choose-section' is the ID of the section you want to scroll to
+      window.location.hash = 'choose';
+      // Optional: if you want to animate the scroll to the section
+      document.getElementById('choose').scrollIntoView({ behavior: 'smooth' });
+    }
+    // Add event listener for the 'Discover Music' button
+    document.querySelector('.discover-music-btn').addEventListener('click', function (event) {
+      event.preventDefault();
+      // Set the output value to the hidden input field
+      document.getElementById('output-value').value = document.querySelector('.output').textContent;
+      // Submit the form
+      document.getElementById('redirect-form').submit();
+    });
+
+  </script>
+  <form action="/redirect" method="post">
+    <input type="hidden" id="output_value" name="output_value">
+    <button type="submit">Discover Music</button>
+</form>
+
+<script>
+    function captureOutput() {
+        fetch('/capture', { method: 'POST' })
+        .then(response => response.text())
+        .then(data => {
+            console.log("Captured Output:", data); // Debugging log
+            document.getElementById("output_value").value = data;
+        });
+    }
+
+    document.querySelector("form").addEventListener("submit", function(event) {
+        captureOutput(); 
+    });
+</script>
+
+</body>
+
+</html>
